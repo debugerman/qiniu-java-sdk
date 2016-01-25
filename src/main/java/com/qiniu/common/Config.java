@@ -2,11 +2,9 @@ package com.qiniu.common;
 
 import java.nio.charset.Charset;
 
-// CHECKSTYLE:OFF
-
 public final class Config {
 
-    public static final String VERSION = "7.0.8";
+    public static final String VERSION = "8.0.0";
     /**
      * 断点上传时的分块大小(默认的分块大小, 不允许改变)
      */
@@ -57,4 +55,3 @@ public final class Config {
     private Config() {
     }
 }
-// CHECKSTYLE:ON

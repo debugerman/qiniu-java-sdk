@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
  * 定义HTTP请求管理相关方法
  */
 public final class Client {
-    public static final String ContentTypeHeader = "Content-Type";
     public static final String DefaultMime = "application/octet-stream";
     public static final String JsonMime = "application/json";
     public static final String FormMime = "application/x-www-form-urlencoded";
@@ -30,7 +29,6 @@ public final class Client {
         httpClient.setDispatcher(dispatcher);
         httpClient.setConnectionPool(connectionPool);
         httpClient.networkInterceptors().add(new Interceptor() {
-            @Override
             public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
 
@@ -96,7 +94,6 @@ public final class Client {
     public Response post(String url, StringMap params, StringMap headers) throws QiniuException {
         final FormEncodingBuilder f = new FormEncodingBuilder();
         params.forEach(new StringMap.Consumer() {
-            @Override
             public void accept(String key, Object value) {
                 f.add(key, value.toString());
             }
@@ -164,7 +161,6 @@ public final class Client {
         mb.addFormDataPart(name, fileName, file);
 
         fields.forEach(new StringMap.Consumer() {
-            @Override
             public void accept(String key, Object value) {
                 mb.addFormDataPart(key, value.toString());
             }
@@ -178,7 +174,6 @@ public final class Client {
     public Response send(final Request.Builder requestBuilder, StringMap headers) throws QiniuException {
         if (headers != null) {
             headers.forEach(new StringMap.Consumer() {
-                @Override
                 public void accept(String key, Object value) {
                     requestBuilder.header(key, value.toString());
                 }
@@ -208,7 +203,6 @@ public final class Client {
     public void asyncSend(final Request.Builder requestBuilder, StringMap headers, final AsyncCallback cb) {
         if (headers != null) {
             headers.forEach(new StringMap.Consumer() {
-                @Override
                 public void accept(String key, Object value) {
                     requestBuilder.header(key, value.toString());
                 }
@@ -219,14 +213,12 @@ public final class Client {
         final long start = System.currentTimeMillis();
         IpTag tag = new IpTag();
         httpClient.newCall(requestBuilder.tag(tag).build()).enqueue(new Callback() {
-            @Override
             public void onFailure(Request request, IOException e) {
                 e.printStackTrace();
                 long duration = (System.currentTimeMillis() - start) / 1000;
                 cb.complete(Response.createError(null, "", duration, e.getMessage()));
             }
 
-            @Override
             public void onResponse(com.squareup.okhttp.Response response) throws IOException {
                 long duration = (System.currentTimeMillis() - start) / 1000;
                 cb.complete(Response.create(response, "", duration));
@@ -283,7 +275,6 @@ public final class Client {
         mb.addFormDataPart(name, fileName, file);
 
         fields.forEach(new StringMap.Consumer() {
-            @Override
             public void accept(String key, Object value) {
                 mb.addFormDataPart(key, value.toString());
             }

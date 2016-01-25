@@ -144,7 +144,6 @@ public class FormUploadTest {
         try {
             uploadManager.asyncPut("hello".getBytes(), expectKey, token, params,
                     null, false, new UpCompletionHandler() {
-                        @Override
                         public void complete(String key, Response r) {
                             signal.countDown();
                             StringMap map = null;

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_qiniu-java-sdk" default="compile.module.qiniu-java-sdk">
+  <dirname property="module.qiniu-java-sdk.basedir" file="${ant.file.module_qiniu-java-sdk}"/>
+  
+  <property name="module.jdk.home.qiniu-java-sdk" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.qiniu-java-sdk" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.qiniu-java-sdk" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.qiniu-java-sdk" value="-encoding UTF-8 -source 1.5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="qiniu-java-sdk.output.dir" value="${module.qiniu-java-sdk.basedir}/target/classes"/>
+  <property name="qiniu-java-sdk.testoutput.dir" value="${module.qiniu-java-sdk.basedir}/target/test-classes"/>
+  
+  <path id="qiniu-java-sdk.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="qiniu-java-sdk.module.production.classpath">
+    <path refid="${module.jdk.classpath.qiniu-java-sdk}"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.5.classpath"/>
+    <path refid="library.maven:_com.squareup.okhttp:okhttp:2.7.2.classpath"/>
+    <path refid="library.maven:_com.squareup.okio:okio:1.6.0.classpath"/>
+  </path>
+  
+  <path id="qiniu-java-sdk.runtime.production.module.classpath">
+    <pathelement location="${qiniu-java-sdk.output.dir}"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.5.classpath"/>
+    <path refid="library.maven:_com.squareup.okhttp:okhttp:2.7.2.classpath"/>
+    <path refid="library.maven:_com.squareup.okio:okio:1.6.0.classpath"/>
+  </path>
+  
+  <path id="qiniu-java-sdk.module.classpath">
+    <path refid="${module.jdk.classpath.qiniu-java-sdk}"/>
+    <pathelement location="${qiniu-java-sdk.output.dir}"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.5.classpath"/>
+    <path refid="library.maven:_com.squareup.okhttp:okhttp:2.7.2.classpath"/>
+    <path refid="library.maven:_com.squareup.okio:okio:1.6.0.classpath"/>
+    <path refid="library.maven:_junit:junit:4.12.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  <path id="qiniu-java-sdk.runtime.module.classpath">
+    <pathelement location="${qiniu-java-sdk.testoutput.dir}"/>
+    <pathelement location="${qiniu-java-sdk.output.dir}"/>
+    <path refid="library.maven:_com.google.code.gson:gson:2.5.classpath"/>
+    <path refid="library.maven:_com.squareup.okhttp:okhttp:2.7.2.classpath"/>
+    <path refid="library.maven:_com.squareup.okio:okio:1.6.0.classpath"/>
+    <path refid="library.maven:_junit:junit:4.12.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.qiniu-java-sdk">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.qiniu-java-sdk">
+    <patternset refid="excluded.from.module.qiniu-java-sdk"/>
+  </patternset>
+  
+  <path id="qiniu-java-sdk.module.sourcepath">
+    <dirset dir="${module.qiniu-java-sdk.basedir}">
+      <include name="src/main/java"/>
+    </dirset>
+  </path>
+  
+  <path id="qiniu-java-sdk.module.test.sourcepath">
+    <dirset dir="${module.qiniu-java-sdk.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.qiniu-java-sdk" depends="compile.module.qiniu-java-sdk.production,compile.module.qiniu-java-sdk.tests" description="Compile module qiniu-java-sdk"/>
+  
+  <target name="compile.module.qiniu-java-sdk.production" depends="register.custom.compilers" description="Compile module qiniu-java-sdk; production classes">
+    <mkdir dir="${qiniu-java-sdk.output.dir}"/>
+    <javac2 destdir="${qiniu-java-sdk.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.qiniu-java-sdk}/javac">
+      <compilerarg line="${compiler.args.qiniu-java-sdk}"/>
+      <bootclasspath refid="qiniu-java-sdk.module.bootclasspath"/>
+      <classpath refid="qiniu-java-sdk.module.production.classpath"/>
+      <src refid="qiniu-java-sdk.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.qiniu-java-sdk"/>
+    </javac2>
+    
+    <copy todir="${qiniu-java-sdk.output.dir}">
+      <fileset dir="${module.qiniu-java-sdk.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.qiniu-java-sdk.tests" depends="register.custom.compilers,compile.module.qiniu-java-sdk.production" description="compile module qiniu-java-sdk; test classes" unless="skip.tests">
+    <mkdir dir="${qiniu-java-sdk.testoutput.dir}"/>
+    <javac2 destdir="${qiniu-java-sdk.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.qiniu-java-sdk}/javac">
+      <compilerarg line="${compiler.args.qiniu-java-sdk}"/>
+      <bootclasspath refid="qiniu-java-sdk.module.bootclasspath"/>
+      <classpath refid="qiniu-java-sdk.module.classpath"/>
+      <src refid="qiniu-java-sdk.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.qiniu-java-sdk"/>
+    </javac2>
+    
+    <copy todir="${qiniu-java-sdk.testoutput.dir}">
+      <fileset dir="${module.qiniu-java-sdk.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.qiniu-java-sdk" description="cleanup module">
+    <delete dir="${qiniu-java-sdk.output.dir}"/>
+    <delete dir="${qiniu-java-sdk.testoutput.dir}"/>
+  </target>
+</project>

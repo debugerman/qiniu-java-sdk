@@ -154,7 +154,6 @@ public final class ResumeUploader {
         }
         if (params != null) {
             params.forEach(new StringMap.Consumer() {
-                @Override
                 public void accept(String key, Object value) {
                     b.append("/");
                     b.append(key);

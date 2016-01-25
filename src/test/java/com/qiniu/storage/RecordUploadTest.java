@@ -34,7 +34,6 @@ public class RecordUploadTest {
         final String token = TestConfig.testAuth.uploadToken(TestConfig.bucket, expectKey);
         final FileRecorder recorder = new FileRecorder(f.getParentFile());
         final RecordKeyGenerator keyGen = new RecordKeyGenerator() {
-            @Override
             public String gen(String key, File file) {
                 return key + "_._" + file.getAbsolutePath();
             }
@@ -184,7 +183,6 @@ public class RecordUploadTest {
             this.token = token;
         }
 
-        @Override
         public Response call() throws Exception {
             Response res = uploadManager.put(file, key, token);
             System.out.println("up:  " + res);
